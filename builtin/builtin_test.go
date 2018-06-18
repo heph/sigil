@@ -24,7 +24,7 @@ func TestSsmParameter(t *testing.T) {
 	expected_value := "test value"
 
 	ssmapi := fakeSSM{
-			payload:ssm.GetParameterOutput{
+			payload: ssm.GetParameterOutput{
 				Parameter: &ssm.Parameter{
 					Name: aws.String(expected_key),
 					Value: aws.String(expected_value),

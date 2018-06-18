@@ -8,9 +8,10 @@ os = $(word 1, $@)
 .PHONY: $(PLATFORMS)
 $(PLATFORMS):
 	mkdir -p build/$(os)
-	go build -v -o build/$(os)/sigil ./cmd
+	go build -a -o build/$(os)/sigil ./cmd
 
 test:
+	cd builtin ; go test ; cd ..
 	basht tests/*.bash
 
 install: build

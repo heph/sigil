@@ -86,9 +86,7 @@ func SsmParameter(name string) (interface{}, error) {
 	}
 	resp, err := GetSsmParameter(ssmapi, name)
 	if err != nil {
-		return "", fmt.Errorf("ssm.GetParameter({ Name: %v, WithDecryption: true }): %v",
-			*aws.String(name),
-			err)
+		return "", fmt.Errorf("%v", err)
 	}
 	return resp, err
 }
