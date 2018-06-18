@@ -16,9 +16,12 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/dustin/go-jsonpointer"
 	"github.com/flynn/go-shlex"
-	"github.com/gliderlabs/sigil"
+	"github.com/heph/sigil"
 	"github.com/jmespath/go-jmespath"
 	"gopkg.in/yaml.v2"
 )
@@ -50,8 +53,9 @@ func init() {
 		"files":  Files,
 		"text":   Text,
 		// external
-		"sh":      Shell,
-		"httpget": HttpGet,
+		"sh":           Shell,
+		"httpget":      HttpGet,
+		"ssmparameter": SsmParameter,
 		// structured data
 		"pointer":  Pointer,
 		"json":     Json,
@@ -68,6 +72,24 @@ func init() {
 		"split":    Split,
 		"splitkv":  SplitKv,
 	})
+}
+
+func SsmParameter(name string) (interface{}, error) {
+	sess := session.Must(session.NewSession(&aws.Config{}))
+
+	svc := ssm.New(sess)
+
+	resp, err := svc.GetParameter(&ssm.GetParameterInput{
+		Name:           aws.String(name),
+		WithDecryption: aws.Bool(true),
+	})
+	if err != nil {
+		return "", fmt.Errorf("ssm.GetParameter({ Name: %v, WithDecryption: true }): %v",
+			*aws.String(name),
+			err)
+	}
+
+	return fmt.Sprintf("%v", *resp.Parameter.Value), err
 }
 
 func Shell(in interface{}) (interface{}, error) {
