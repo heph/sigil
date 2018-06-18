@@ -24,6 +24,7 @@ import (
 	"github.com/heph/sigil"
 	"github.com/jmespath/go-jmespath"
 	"gopkg.in/yaml.v2"
+	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
 )
 
 func init() {
@@ -74,13 +75,27 @@ func init() {
 	})
 }
 
+type SsmClient struct {
+	ssmiface.SSMAPI
+}
+
 func SsmParameter(name string) (interface{}, error) {
-	sess := session.Must(session.NewSession(&aws.Config{}))
+	sess := session.Must(session.NewSession())
+	ssmapi := SsmClient{
+		ssm.New(sess),
+	}
+	resp, err := GetSsmParameter(ssmapi, name)
+	if err != nil {
+		return "", fmt.Errorf("ssm.GetParameter({ Name: %v, WithDecryption: true }): %v",
+			*aws.String(name),
+			err)
+	}
+	return resp, err
+}
 
-	svc := ssm.New(sess)
-
-	resp, err := svc.GetParameter(&ssm.GetParameterInput{
-		Name:           aws.String(name),
+func GetSsmParameter(ssmapi ssmiface.SSMAPI, name string) (interface{}, error) {
+	resp, err := ssmapi.GetParameter(&ssm.GetParameterInput{
+		Name: aws.String(name),
 		WithDecryption: aws.Bool(true),
 	})
 	if err != nil {
@@ -88,7 +103,6 @@ func SsmParameter(name string) (interface{}, error) {
 			*aws.String(name),
 			err)
 	}
-
 	return fmt.Sprintf("%v", *resp.Parameter.Value), err
 }
 
