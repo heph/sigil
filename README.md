@@ -1,9 +1,5 @@
 # Sigil
 
-[![CircleCI](https://img.shields.io/circleci/project/gliderlabs/sigil/release.svg)](https://circleci.com/gh/gliderlabs/sigil)
-[![IRC Channel](https://img.shields.io/badge/irc-%23gliderlabs-blue.svg)](https://kiwiirc.com/client/irc.freenode.net/#gliderlabs)
-
-
 Standalone string interpolator and template processor
 
 ```
@@ -18,11 +14,11 @@ for any text processing.
 ## Getting Sigil
 
 ```shell
-curl -L "https://github.com/gliderlabs/sigil/releases/download/v0.4.0/sigil_0.4.0_$(uname -sm|tr \  _).tgz" \
+curl -L "https://github.com/heph/sigil/releases/download/v0.5.0/sigil_0.5.0_$(uname -sm|tr \  _).tgz" \
     | tar -zxC /usr/local/bin
 ```
 
-Other releases can be downloaded from [Github Releases](https://github.com/gliderlabs/sigil/releases).
+Other releases can be downloaded from [Github Releases](https://github.com/heph/sigil/releases).
 
 ## Using Sigil
 
@@ -78,7 +74,7 @@ There are a number of builtin functions that can be used as modifiers,
 conditional tests, expansion data sources, and more. There are two references
 for functions available:
 
- * [Sigil builtins](http://godoc.org/github.com/gliderlabs/sigil/builtin)
+ * [Sigil builtins](http://godoc.org/github.com/heph/sigil/builtin)
  * [Go template builtins](http://golang.org/pkg/text/template/#hdr-Functions)
 
 Here are a few examples:

@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.5.0][v0.5.0]
+### Fixed
+
+### Added
+
+- Added ssmparameter function
+
+### Removed
+
+### Changed
+
 ## [Unreleased][unreleased]
 ### Fixed
 
@@ -13,4 +24,6 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.1.0...HEAD
+[v0.5.0]: https://github.com/heph/sigil/releases/tag/v0.5.0
+
+[unreleased]: https://github.com/gliderlabs/sigil/compare/v0.4.0...master
